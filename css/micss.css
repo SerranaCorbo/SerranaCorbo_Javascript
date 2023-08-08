@@ -1,13 +1,83 @@
+/*fuente del proyecto*/
+@import url('https://fonts.googleapis.com/css2?family=Assistant:wght@200;300;400&family=Montserrat:wght@100;300;400;500&display=swap');
+
+/*estilos generales*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 body{
-    background-image: url(../img/fondo.jpg);
-    background-color: rgba(255, 255, 255, 0.8);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: fixed;
+    font-family: 'Assistant', sans-serif;
+    width: 100vw;
+    min-height: 100%;
+    overflow-x: hidden;
 }
+
+/*estilos del nav*/
+.navegador {
+    position: sticky;
+    display: flex;
+    align-items: end;
+    width: 100%;
+}
+
+.titulopag{
+    font-size: 26px;
+    color: #c98e8e;
+    font-weight: bold;
+}
+
+/*estilos del catalogo*/
+.titulocatalogo{
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+/*estilos del carrito*/
+.subtotalCol, .productosCol, .cantidadCol, .totalTexto{
+    font-size: 16px;
+}
+
+.botonLimpiar, .botonComprar{
+    border-radius: 0;
+    color: white;
+}
+
+.botonLimpiar{
+    background-color: rgb(184, 95, 95);
+    border: none;
+}
+
+.botonComprar{
+    background-color: #ebb4b4;
+    border: none;
+}
+
+.seccionfiltro{
+    padding-top: 100px;
+    padding-left: 50px;
+    padding-right: 55px;
+    background-color: white;
+    box-shadow: 0px 0px 10px rgba(72, 72, 72, 0.165);
+}
+
+.titulocard{
+    font-size: 16px;
+}
+
+.titulofiltro{
+    color: #c98e8e;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
 .seccionCatalogo{
-    padding-top: 85px;
+    padding-top: 65px;
 }
+
 .classCatalogo{
 display: flex;
 text-align: center;
@@ -15,16 +85,17 @@ justify-content: center;
 flex-wrap: wrap;
 width: 100%;
 padding-top: 20px;
-padding-left: 20px;
 }
 .cardCatalogo{
-    width: 200px;
+    width: 230px;
 }
+
 img{
-    width: 100px;
-    height: 190px;
+    width: 150px;
+    height: 150px;
     object-fit: cover;
 }
+
 .producto {
     display: flex;
     flex-direction: column;
@@ -32,25 +103,52 @@ img{
     border-color: black;
     padding: 15px;
     margin: 7px;
-    border-radius: 5px;
+    border-radius: 1px;
+    box-shadow: 0px 0px 10px rgba(72, 72, 72, 0.165);
     text-align: center;
     z-index: 0;
-    border: 1px solid rgb(248,245,245);
-    background-color: rgb(248, 245, 245);
+    background-color: rgba(248, 245, 245, 0.93) white;
+    width: 230px;
+}
+
+.textoprecio{
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.botonProductos{
+    background-color: #ebb4b4 ;
+    color: white;
+}
+
+.botonvercarrito{
+    color: white;
+    background-color: #ebb4b4;
+    border: none;
 }
 
 .classTicket{
     width: 100%;
 }
 
-th {
-    display: table-cell;
-    vertical-align:middle;
-    justify-content: center;
-    font-weight: bold;
-    text-align: left;
-    font-size: 1.2rem;
+#tablaCarrito {
+    position: absolute;
+    top: 0;
+    left: 0;
+    max-height: 100vh;
+    overflow-y: auto;
+    background-color: white; 
+    z-index: 1; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 10px; 
+    border-radius: 5px; 
 }
+
+.contenedorBotones{
+    display: flex;
+    flex-direction: row;
+}
+
 
 .celdaCantidad{
     display: flex;
@@ -59,6 +157,19 @@ th {
     height: 100%;
     align-items: center;
     justify-content: space-between;
+}
+
+.botonRestar, .botonSumar{
+    text-align: center;
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    border: none;
+    background-color: #c98e8e;
+    color: white;
+
 }
 
 #agregarcarrito{
@@ -83,4 +194,14 @@ th {
 .classTicket{
     width: 400px;
     padding-top: 155px;
+}
+
+.footer{
+    display: flex;
+    flex-direction: row;
+    padding: 20px 8%;
+    margin-top: 100px;
+    background-color:#f7e8e8;
+    width: 100%;
+    height: 10vh;
 }
