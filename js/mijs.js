@@ -1,20 +1,4 @@
 //definicion de constantes y variables
-//definicion de los productos del carrito
-const productos = [
-    { nombre: "Base", precio: 600, marca: "Maybelline", categoria: "Maquillaje", imagen: "basemayb.webp" },
-    { nombre: "Rimel", precio: 800, marca: "Maybelline", categoria: "Maquillaje", imagen: "rimelmayb.jpg " },
-    { nombre: "Delineador", precio: 1200, marca: "Mac", categoria: "Maquillaje", imagen: "delineadormac.jpg" },
-    { nombre: "Contorno", precio: 650, marca: "Maybelline", categoria: "Maquillaje", imagen: "contornomayb.jpg" },
-    { nombre: "Iluminador", precio: 650, marca: "Maybelline", categoria: "Maquillaje", imagen: "iluminadormayb.webp" },
-    { nombre: "Crema facial día", precio: 900, marca: "CeraVe", categoria: "Cuidado facial y corporal", imagen: "cremadia.jpeg" },
-    { nombre: "Crema de cuerpo", precio: 650, marca: "Dove", categoria: "Cuidado facial y corporal", imagen: "cremacuerpo.jpg" },
-    { nombre: "Limpiador facial", precio: 750, marca: "CeraVe", categoria: "Cuidado facial y corporal", imagen: "limpadorfacial.jpg" },
-    { nombre: "Gloss", precio: 700, marca: "Maybelline", categoria: "Maquillaje", imagen: "glossmayb.jpg" },
-    { nombre: "Labial", precio: 750, marca: "Maybelline", categoria: "Maquillaje", imagen: "labialmayb.jpg" },
-    { nombre: "Labial mate", precio: 790, marca: "Revlon", categoria: "Maquillaje", imagen: "labialrev.webp" },
-    { nombre: "Polvo compácto", precio: 490, marca: "Revlon", categoria: "Maquillaje", imagen: "polvorev.webp" },
-
-];
 
 let nombreItem;
 let nombreUsuario;
@@ -26,6 +10,32 @@ let ticket = "";
 let continuar;
 let agregarProducto;
 let carrito = [];
+
+//array que va a contener los productos del json
+const productos = [];
+
+//traigo del json los productos
+fetch('./productos.json')
+    .then((response) => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error ('Hubo un error en el servidor: ' + response.status);
+        } 
+    }) 
+    .then((data) => {
+        //almaceno los productos cargados en la variable productos
+        productos.push(...data);        
+        //llamo a la función para mostrar los productos en la página
+        mostrarCatalogo();
+    }) 
+    .catch((error) => {
+        console.log('En este momento el servidor no puede procesar la información')
+
+    }) 
+
+
+
 
 //funciones relacionadas al carrito y amacenamiento
 function carritoAlStorage() {
@@ -46,13 +56,14 @@ traerCarrito();
 function mostrarCatalogo() {
     let seccionCatalogo = document.getElementById('idCatalogo');
     seccionCatalogo.innerHTML = '';
-    productos.forEach((producto) => {
-        tarjeta(producto, seccionCatalogo);
+    productos.forEach((producto) => {  
+        crearCatalogo(producto, seccionCatalogo);
     });
 }
 
+
 //creo tarjetas del catalogo
-function tarjeta(producto, seccion) {
+function crearCatalogo(producto, seccion) {
     let { nombre, precio, imagen } = producto;
     let card = document.createElement('div');
     card.classList.add('d-flex', 'justify-content-center', "cardCatalogo");
@@ -62,8 +73,8 @@ function tarjeta(producto, seccion) {
     figure.innerHTML = `<div class="imgprod"><img src="./img/${producto.imagen}"></div>
                         <div class="descripcionprod">
                             <figcaption><p class="titulocard">${producto.nombre} - ${producto.marca} </p></figcaption>
-                            <p class="textoprecio">precio: $${producto.precio.toLocaleString()} c/u</p>
-                            <button class= "botonProductos btn btn-light" id="agregarcarrito-${producto.nombre}">Agregar al carrito</button>
+                            <p class="textoprecio">Precio: $${producto.precio.toLocaleString()} c/u</p>
+                            <button class= "botonProductos btn btn-light" id="agregarcarrito-${producto.nombre}">+ Agregar al carrito</button>
                         </div>`;
     card.appendChild(figure);
     seccion.appendChild(card);
@@ -75,7 +86,7 @@ function tarjeta(producto, seccion) {
             gravity: 'bottom',        
             duration: 2000,
             style: {
-                background: "#c98e8e",
+                background: "#ebb4b4",
             },           
             }).showToast();
     };
@@ -190,10 +201,30 @@ function mostrarCarrito() {
         tablaBody.appendChild(fila);
 
         const botonResta = document.getElementById(`restar-${producto.nombre}`);
-        botonResta.addEventListener('click', () => { restarProducto(producto) });
+        botonResta.addEventListener('click', () => {
+            restarProducto(producto) 
+            Toastify({
+                text: "¡Producto eliminado del carrito!",   
+                gravity: 'bottom',        
+                duration: 2000,
+                style: {
+                    background: "rgb(184, 95, 95)",
+                },           
+                }).showToast();
+            });
 
         const botonSuma = document.getElementById(`sumar-${producto.nombre}`);
-        botonSuma.addEventListener('click', () => { agregarCarrito(producto) });
+        botonSuma.addEventListener('click', () => { 
+            agregarCarrito(producto) 
+            Toastify({
+                text: "¡Producto agregado al carrito!",   
+                gravity: 'bottom',        
+                duration: 2000,
+                style: {
+                    background: "#ebb4b4",
+                },           
+                }).showToast();
+            });
     });
 
     const filaTotal = document.createElement('tr');
@@ -213,16 +244,36 @@ function mostrarCarrito() {
     tablaBody.appendChild(filaTotal);
 }
 
-//funcion para filtrar los productos por marca
-function filtrarPorMarca() {
-    const filtroMarca = document.getElementById('filtroMarca').value;
-
+//funcion para filtrar los productos por categoria
+function filtrarPorCategoria() {
     let seccionCatalogo = document.getElementById('idCatalogo');
     seccionCatalogo.innerHTML = '';
-
+    
+    const filtroCategoria = document.getElementById('filtroCategoria').value;
+    
     productos.forEach((producto) => {
-        if (filtroMarca === 'todos' || producto.marca === filtroMarca) {
-            tarjeta(producto, seccionCatalogo);
+        if (filtroCategoria === 'todos' || producto.categoria === filtroCategoria) {
+            crearCatalogo(producto, seccionCatalogo);
+        }
+    });
+}
+const selectFiltroCategoria = document.getElementById('filtroCategoria');
+selectFiltroCategoria.addEventListener('change', filtrarPorCategoria);
+
+
+//funcion para filtrar los productos por marca
+function filtrarPorMarca() {
+    let seccionCatalogo = document.getElementById('idCatalogo');
+    seccionCatalogo.innerHTML = '';
+    
+    const checkboxes = document.querySelectorAll('#filtroMarca input[type="checkbox"]');
+    const marcasSeleccionadas = Array.from(checkboxes)
+        .filter(checkbox => checkbox.checked)
+        .map(checkbox => checkbox.value);
+    
+    productos.forEach((producto) => {
+        if (marcasSeleccionadas.includes(producto.marca) || marcasSeleccionadas.length === 0) {
+            crearCatalogo(producto, seccionCatalogo);
         }
     });
 }
@@ -262,60 +313,79 @@ function calcularTotalCarrito() {
         return carrito.reduce((total, producto) => total + (producto.precio * producto.cantidad), 0);
 }
 
-//funcion para limpiar el carrito
+//función para limpiar el carrito
 function limpiarCarrito() {
+    if (carrito.length === 0) {
         Swal.fire({
-            title: '¿Estás seguro?',
-            text: '¿Deseas limpiar todos los items del carrito?',
-            icon: 'warning',
+            title: "Carrito vacío",
+            text: "No hay items en el carrito para limpiar.",
+            icon: "warning",
+            confirmButtonColor: "#ED9192",
+            confirmButtonText: "Aceptar"
+        });
+    } else {
+        Swal.fire({
+            title: "¿Estás seguro?",
+            text: "¿Deseas limpiar todos los items del carrito?",
+            icon: "warning",
             showCancelButton: true,
-            confirmButtonText: 'Sí, limpiar carrito',
-            confirmButtonColor: '#ED9192',
-            cancelButtonText: 'Cancelar',
+            confirmButtonText: "Sí, limpiar carrito",
+            confirmButtonColor: "#ED9192",
+            cancelButtonText: "Cancelar",
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
                 carrito.splice(0, carrito.length);
-                carrito = [];
                 carritoAlStorage();
                 mostrarCarrito();
-                console.log("el usuario apreto confirmar para limpiar el carrito")
+                console.log("el usuario apretó confirmar para limpiar el carrito");
                 Swal.fire({
-                    title: '¡Carrito limpiado!',
-                    text: 'El carrito ha sido limpiado con éxito.',
-                    icon: 'success',
-                    confirmButtonText: 'Aceptar',
-                    confirmButtonColor: '#ED9192',
+                    title: "¡Carrito limpiado!",
+                    text: "El carrito ha sido limpiado con éxito.",
+                    icon: "success",
+                    confirmButtonText: "Aceptar",
+                    confirmButtonColor: "#ED9192"
                 });
-                }
-            });
+            }
+        });
+    }
 }
 
-//función para simular la realizacion de la compra
+//función para simular la realización de la compra
 function realizarCompra() {
+    if (carrito.length === 0) {
         Swal.fire({
-        title: "¡Ya casi está listo!",
-        text: '¿Desea continuar con su compra?',
-        showCancelButton: true,
-        confirmButtonColor: '#ED9192',
-        confirmButtonText: 'Ir a pagar',
-        cancelButtonText: 'Aún no',
+            title: "Carrito vacío",
+            text: "No puede realizar la compra porque su carrito está vacío.",
+            icon: "warning",
+            confirmButtonColor: "#ED9192",
+            confirmButtonText: "Aceptar"
+        });
+    } else {
+        Swal.fire({
+            title: "¡Ya casi está listo!",
+            text: "¿Desea continuar con su compra?",
+            showCancelButton: true,
+            confirmButtonColor: "#ED9192",
+            confirmButtonText: "Ir a pagar",
+            cancelButtonText: "Aún no"
         }).then((result) => {
             if (result.isConfirmed) {
                 carrito.splice(0, carrito.length);
                 carrito = [];
                 carritoAlStorage();
                 mostrarCarrito();
-                console.log("el usuario realizo una compra")
+                console.log("el usuario realizo una compra");
                 Swal.fire({
-                    title: '¡Compra realizada!',
-                    text: 'Su pago fue efectuado con éxito.',
-                    icon: 'success',
-                    confirmButtonText: 'Aceptar',
-                    confirmButtonColor: '#ED9192',
+                    title: "¡Compra realizada!",
+                    text: "Su pago fue efectuado con éxito.",
+                    icon: "success",
+                    confirmButtonText: "Aceptar",
+                    confirmButtonColor: "#ED9192"
                 });
             }
         });
+    }
 }
     
 // inicialización
@@ -323,3 +393,4 @@ function inicializar() {
     mostrarCatalogo();
 }    
 inicializar();
+

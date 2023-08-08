@@ -9,6 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.20/dist/sweetalert2.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="shortcut icon" href="./img/icono.ico" type="image/x-icon">
     <link href="./css/micss.css" rel="stylesheet" href="">
 </head>
 <body>
@@ -26,15 +27,36 @@
     </header>
     <main class="main row">
         <section class="col-2 seccionfiltro">
-            <p class="titulofiltro">Filtrar por marca</p>
-            <select id="filtroMarca" class="form-select" aria-label="Default select example">
-                <option value="todos">Todos</option>
-                <option value="Maybelline">Maybelline</option>
-                <option value="Mac">Mac</option>
-                <option value="CeraVe">CeraVe</option>
-                <option value="Dove">Dove</option>
-                <option value="Revlon">Revlon</option>
-            </select>
+            <div class="divFiltroCategoria">
+                <p class="titulofiltro">Filtrar por categoría</p>
+                <div>
+                    <select id="filtroCategoria" class="form-select">
+                        <option value="todos">Todos</option>
+                        <option value="Maquillaje">Maquillaje</option>
+                        <option value="Cuidado facial y corporal">Cuidado facial y corporal</option>
+                    </select>
+                </div>
+            </div>
+            <div class="divFiltroMarca">
+                <p class="titulofiltro">Filtrar por marca</p>
+                <div id="filtroMarca" class="form-check d-flex flex-column">
+                    <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox" value="Maybelline"> Maybelline
+                    </label>
+                    <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox" value="Mac"> Mac
+                    </label>
+                    <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox" value="CeraVe"> CeraVe
+                    </label>
+                    <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox" value="Dove"> Dove
+                    </label>
+                    <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox" value="Revlon"> Revlon
+                    </label>
+                </div>  
+            </div>          
         </section>
         <section class=" seccionCatalogo col-10 d-flex flex-column align-items-center justify-content-center">
             <p class="titulocatalogo">Catálogo de productos</p>

@@ -25,7 +25,7 @@ body{
 .titulopag{
     font-size: 26px;
     color: #c98e8e;
-    font-weight: bold;
+    font-weight: bolder;
 }
 
 /*estilos del catalogo*/
@@ -63,6 +63,15 @@ body{
     box-shadow: 0px 0px 10px rgba(72, 72, 72, 0.165);
 }
 
+.divFiltroCategoria{
+    margin-top: 20px;
+    margin-bottom: 35px;
+}
+
+.form-check-input:checked {
+    background-color:#ebb4b4;
+}
+
 .titulocard{
     font-size: 16px;
 }
@@ -81,10 +90,11 @@ body{
 .classCatalogo{
 display: flex;
 text-align: center;
-justify-content: center;
 flex-wrap: wrap;
+align-content: flex-start;
 width: 100%;
 padding-top: 20px;
+padding-left: 55px;
 }
 .cardCatalogo{
     width: 230px;

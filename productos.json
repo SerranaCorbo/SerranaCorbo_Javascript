@@ -1,0 +1,98 @@
+[
+    {
+        "id": "base",
+        "nombre": "Base",
+        "precio": 600,
+        "marca": "Maybelline",
+        "categoria": "Maquillaje",
+        "imagen": "basemayb.webp"
+    },
+    {
+        "id": "rimel",
+        "nombre": "Rimel",
+        "precio": 900,
+        "marca": "Maybelline",
+        "categoria": "Maquillaje",
+        "imagen": "rimelmayb.jpg"
+    },
+    {
+        "id": "delineador",
+        "nombre": "Delineador",
+        "precio": 1200,
+        "marca": "Mac",
+        "categoria": "Maquillaje",
+        "imagen": "delineadormac.jpg"
+    },
+    {
+        "id": "contorno",
+        "nombre": "Contorno",
+        "precio": 650,
+        "marca": "Maybelline",
+        "categoria": "Maquillaje",
+        "imagen": "contornomayb.jpg"
+    },
+    {
+        "id": "iluminador",
+        "nombre": "Iluminador",
+        "precio": 650,
+        "marca": "Maybelline",
+        "categoria": "Maquillaje",
+        "imagen": "iluminadormayb.webp"
+    },
+    {
+        "id": "cremaFacialDia",
+        "nombre": "Crema facial día",
+        "precio": 900,
+        "marca": "CeraVe",
+        "categoria": "Cuidado facial y corporal",
+        "imagen": "cremadia.jpeg"
+    },
+    {
+        "id": "cremaCuerpo",
+        "nombre": "Crema de cuerpo",
+        "precio": 650,
+        "marca": "Dove",
+        "categoria": "Cuidado facial y corporal",
+        "imagen": "cremacuerpo.jpg"
+    },
+    {
+        "id": "limpiadorFacial",
+        "nombre": "Limpiador facial",
+        "precio": 750,
+        "marca": "CeraVe",
+        "categoria": "Cuidado facial y corporal",
+        "imagen": "limpadorfacial.jpg"
+    },
+    {
+        "id": "gloss",
+        "nombre": "Gloss",
+        "precio": 700,
+        "marca": "Maybelline",
+        "categoria": "Maquillaje",
+        "imagen": "glossmayb.jpg"
+    },
+    {
+        "id": "labialMate",
+        "nombre": "Labial mate",
+        "precio": 750,
+        "marca": "Maybelline",
+        "categoria": "Maquillaje",
+        "imagen": "labialmayb.jpg"
+    },
+    {
+        "id": "labial",
+        "nombre": "Labial",
+        "precio": 790,
+        "marca": "Revlon",
+        "categoria": "Maquillaje",
+        "imagen": "labialrev.webp"
+    },
+    {
+        "id": "polvoCompacto",
+        "nombre": "Polvo compácto",
+        "precio": 490,
+        "marca": "Revlon",
+        "categoria": "Maquillaje",
+        "imagen": "polvorev.webp"
+    }
+]
