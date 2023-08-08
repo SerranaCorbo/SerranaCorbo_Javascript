@@ -14,7 +14,14 @@ body{
     overflow-x: hidden;
 }
 
-/*estilos del nav*/
+.contenedorImagen{
+    height: 22vh;
+    background-image: url(../img/cosmeeee.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    opacity: 0.9;
+}
+
 .navegador {
     position: sticky;
     display: flex;
@@ -23,68 +30,20 @@ body{
 }
 
 .titulopag{
-    font-size: 26px;
+    font-size: 28px;
     color: #c98e8e;
     font-weight: bolder;
 }
 
 /*estilos del catalogo*/
 .titulocatalogo{
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 8px;
-}
-
-/*estilos del carrito*/
-.subtotalCol, .productosCol, .cantidadCol, .totalTexto{
-    font-size: 16px;
-}
-
-.botonLimpiar, .botonComprar{
-    border-radius: 0;
-    color: white;
-}
-
-.botonLimpiar{
-    background-color: rgb(184, 95, 95);
-    border: none;
-}
-
-.botonComprar{
-    background-color: #ebb4b4;
-    border: none;
-}
-
-.seccionfiltro{
-    padding-top: 100px;
-    padding-left: 50px;
-    padding-right: 55px;
-    background-color: white;
-    box-shadow: 0px 0px 10px rgba(72, 72, 72, 0.165);
-}
-
-.divFiltroCategoria{
-    margin-top: 20px;
-    margin-bottom: 35px;
-}
-
-.form-check-input:checked {
-    background-color:#ebb4b4;
-}
-
-.titulocard{
-    font-size: 16px;
-}
-
-.titulofiltro{
-    color: #c98e8e;
-    font-size: 18px;
+    font-size: 22px;
     font-weight: 600;
     margin-bottom: 8px;
 }
 
 .seccionCatalogo{
-    padding-top: 65px;
+    padding-top: 38px;
 }
 
 .classCatalogo{
@@ -96,8 +55,13 @@ width: 100%;
 padding-top: 20px;
 padding-left: 55px;
 }
+
 .cardCatalogo{
     width: 230px;
+}
+
+.titulocard{
+    font-size: 16px;
 }
 
 img{
@@ -131,14 +95,14 @@ img{
     color: white;
 }
 
+/*estilos del carrito*/
 .botonvercarrito{
     color: white;
     background-color: #ebb4b4;
     border: none;
-}
-
-.classTicket{
-    width: 100%;
+    width: 100px;
+    height: 40px;
+    font-size: 16px;
 }
 
 #tablaCarrito {
@@ -159,6 +123,28 @@ img{
     flex-direction: row;
 }
 
+.subtotalCol, .productosCol, .cantidadCol, .totalTexto{
+    font-size: 16px;
+}
+
+.botonLimpiar, .botonComprar{
+    border-radius: 0;
+    color: white;
+}
+
+.botonLimpiar{
+    background-color: rgb(184, 95, 95);
+    border: none;
+}
+
+.botonComprar{
+    background-color: #ebb4b4;
+    border: none;
+}
+
+.classTicket{
+    width: 100%;
+}
 
 .celdaCantidad{
     display: flex;
@@ -177,28 +163,10 @@ img{
     width: 30px;
     height: 30px;
     border: none;
-    background-color: #c98e8e;
-    color: white;
+    background-color: #fffefe;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
+    color: rgb(37, 36, 36);
 
-}
-
-#agregarcarrito{
-    font-size: 1.4rem;
-    line-height: 2rem;
-    border-radius: 5px;
-    padding: 7.5px 15px;
-    border: none;
-    background-color: #1b3039;
-    color: #fffcf4;
-    cursor: pointer;
-}
-.button:active {
-    background-color: #2b4d5b;
-    transform: scale(0.97);
-}
-
-.button:hover {
-    background-color: #2b4d5b;
 }
 
 .classTicket{
@@ -206,6 +174,35 @@ img{
     padding-top: 155px;
 }
 
+/*estilos del filtro*/
+.seccionfiltro{
+    margin-top: 4px;
+    padding-top: 90px;
+    padding-left: 50px;
+    padding-right: 55px;
+    background-color: white;
+    box-shadow: 0px 0px 10px rgba(72, 72, 72, 0.165);
+}
+
+.divFiltroCategoria{
+    margin-top: 10px;
+    margin-bottom: 25px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #b5b3b39f;
+}
+
+.titulofiltro{
+    color: #c98e8e rgb(94, 93, 93);
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.form-check-input:checked {
+    background-color:#ebb4b4;
+}
+
+/*estilos del footer*/
 .footer{
     display: flex;
     flex-direction: row;

@@ -15,27 +15,20 @@ let carrito = [];
 const productos = [];
 
 //traigo del json los productos
-fetch('./productos.json')
-    .then((response) => {
-        if (response.ok) {
-            return response.json();
-        } else {
-            throw new Error ('Hubo un error en el servidor: ' + response.status);
-        } 
-    }) 
-    .then((data) => {
-        //almaceno los productos cargados en la variable productos
-        productos.push(...data);        
-        //llamo a la función para mostrar los productos en la página
+async function cargarProductos() {
+    try {
+        const response = await fetch('./productos.json');
+        if (!response.ok) {
+            throw new Error('Hubo un error en el servidor: ' + response.status);
+        }
+        const data = await response.json();
+        productos.push(...data);
         mostrarCatalogo();
-    }) 
-    .catch((error) => {
-        console.log('En este momento el servidor no puede procesar la información')
-
-    }) 
-
-
-
+    } catch (error) {
+        console.log('En este momento el servidor no puede procesar la información');
+    }
+}
+cargarProductos();
 
 //funciones relacionadas al carrito y amacenamiento
 function carritoAlStorage() {
@@ -51,7 +44,7 @@ carritoAlStorage();
 traerCarrito();
 
 
-//funciones relacionadas a la interfaz
+//funciones relacionadas al catálogo de productos
 //funcion para mostrar el catalogo
 function mostrarCatalogo() {
     let seccionCatalogo = document.getElementById('idCatalogo');
@@ -92,78 +85,80 @@ function crearCatalogo(producto, seccion) {
     };
 }
 
-//creo tabla
-const tabla = document.createElement('table');
-tabla.classList.add('table', 'table-light');
+//función para crear y configurar la tabla del carrito
+function crearTablaCarrito() {
+    const tabla = document.createElement('table');
+    tabla.classList.add('table', 'table-light');
 
-const thead = document.createElement('thead');
-const tr = document.createElement('tr');
+    const thead = document.createElement('thead');
+    const tr = document.createElement('tr');
 
-const thProducto = document.createElement('th');
-thProducto.classList.add('headTabla', 'productosCol');
-thProducto.setAttribute('scope', 'col');
-thProducto.textContent = 'Producto';
-tr.appendChild(thProducto);
+    const thProducto = document.createElement('th');
+    thProducto.classList.add('headTabla', 'productosCol');
+    thProducto.setAttribute('scope', 'col');
+    thProducto.textContent = 'Producto';
+    tr.appendChild(thProducto);
 
-const thCantidad = document.createElement('th');
-thCantidad.classList.add('headTabla', 'cantidadCol');
-thCantidad.setAttribute('scope', 'col');
-thCantidad.textContent = 'Cantidad';
-tr.appendChild(thCantidad);
+    const thCantidad = document.createElement('th');
+    thCantidad.classList.add('headTabla', 'cantidadCol');
+    thCantidad.setAttribute('scope', 'col');
+    thCantidad.textContent = 'Cantidad';
+    tr.appendChild(thCantidad);
 
-const thSubtotal = document.createElement('th');
-thSubtotal.classList.add('headTabla', 'subtotalCol');
-thSubtotal.setAttribute('scope', 'col');
-thSubtotal.textContent = 'Subtotal';
-tr.appendChild(thSubtotal);
+    const thSubtotal = document.createElement('th');
+    thSubtotal.classList.add('headTabla', 'subtotalCol');
+    thSubtotal.setAttribute('scope', 'col');
+    thSubtotal.textContent = 'Subtotal';
+    tr.appendChild(thSubtotal);
 
-thead.appendChild(tr);
-tabla.appendChild(thead);
+    thead.appendChild(tr);
+    tabla.appendChild(thead);
 
-const tbody = document.createElement('tbody');
-tbody.classList.add('tablabody');
-tbody.setAttribute('id', 'tablaBody');
-tabla.appendChild(tbody);
+    thead.appendChild(tr);
+    tabla.appendChild(thead);
 
-//agrego tabla a mi section en html
-const tablaCarrito = document.getElementById('tablaCarrito');
-tablaCarrito.appendChild(tabla);
-tablaCarrito.style.display = 'none';
+    const tbody = document.createElement('tbody');
+    tbody.classList.add('tablabody');
+    tbody.setAttribute('id', 'tablaBody');
+    tabla.appendChild(tbody);
 
-//creo botones de limpiar y comprar
-const botonLimpiar = document.createElement('button');
-botonLimpiar.className = 'botonLimpiar btn btn-light';
-botonLimpiar.innerText = 'Limpiar todo';
-botonLimpiar.addEventListener('click', () => { limpiarCarrito() });
+    const tablaCarrito = document.getElementById('tablaCarrito');
+    tablaCarrito.appendChild(tabla);
+    tablaCarrito.style.display = 'none';
 
-const botonComprar = document.createElement('button');
-botonComprar.className = 'botonComprar btn btn-light';
-botonComprar.innerText = 'Realizar compra';
-botonComprar.addEventListener('click', () => { realizarCompra() });
+    const botonLimpiar = document.createElement('button');
+    botonLimpiar.className = 'botonLimpiar btn btn-light';
+    botonLimpiar.innerText = 'Limpiar todo';
+    botonLimpiar.addEventListener('click', () => { limpiarCarrito() });
 
-//agrego botones al contenedor
-const contenedorBotones = document.createElement('div')
-contenedorBotones.classList.add('d-flex', 'justify-content-end');
-contenedorBotones.appendChild(botonLimpiar);
-contenedorBotones.appendChild(botonComprar);
+    const botonComprar = document.createElement('button');
+    botonComprar.className = 'botonComprar btn btn-light';
+    botonComprar.innerText = 'Realizar compra';
+    botonComprar.addEventListener('click', () => { realizarCompra() });
 
-//agrego el contenedor al final de la tablaCarrito
-tablaCarrito.appendChild(contenedorBotones);
+    const contenedorBotones = document.createElement('div')
+    contenedorBotones.classList.add('d-flex', 'justify-content-end');
+    contenedorBotones.appendChild(botonLimpiar);
+    contenedorBotones.appendChild(botonComprar);
 
-const botonVerCarrito = document.getElementById('botonVerCarrito');
-const rect = botonVerCarrito.getBoundingClientRect();
-tablaCarrito.style.top = rect.bottom + 'px';
-tablaCarrito.style.left = rect.left + 'px';
-botonVerCarrito.addEventListener('click', () => {
-    if (tablaCarrito.style.display === 'none') {
-        tablaCarrito.style.display = 'block';
-        tablaCarrito.style.top = rect.bottom + 'px';
-        tablaCarrito.style.left = rect.right - tablaCarrito.offsetWidth + 'px';
-        mostrarCarrito();
-    } else {
-        tablaCarrito.style.display = 'none';
-    }
-});
+    tablaCarrito.appendChild(contenedorBotones);
+
+    const botonVerCarrito = document.getElementById('botonVerCarrito');
+    const rect = botonVerCarrito.getBoundingClientRect();
+    tablaCarrito.style.top = rect.bottom + 'px';
+    tablaCarrito.style.left = rect.left + 'px';
+    botonVerCarrito.addEventListener('click', () => {
+        if (tablaCarrito.style.display === 'none') {
+            tablaCarrito.style.display = 'block';
+            tablaCarrito.style.top = rect.bottom + 'px';
+            tablaCarrito.style.left = rect.right - tablaCarrito.offsetWidth + 'px';
+            mostrarCarrito();
+        } else {
+            tablaCarrito.style.display = 'none';
+        }
+    });
+}
+crearTablaCarrito();
 
 //funcion para mostrar el contenido del carrito
 function mostrarCarrito() {
@@ -244,42 +239,104 @@ function mostrarCarrito() {
     tablaBody.appendChild(filaTotal);
 }
 
-//funcion para filtrar los productos por categoria
-function filtrarPorCategoria() {
-    let seccionCatalogo = document.getElementById('idCatalogo');
-    seccionCatalogo.innerHTML = '';
+//funcion para crear los filtros por categoria y marca
+function crearFiltros() {
+    //div filtro categoria
+    const divFiltroCategoria = document.createElement('div');
+    divFiltroCategoria.classList.add('divFiltroCategoria');
     
+    const tituloCategoria = document.createElement('p');
+    tituloCategoria.classList.add('titulofiltro');
+    tituloCategoria.textContent = 'Categorías';
+    divFiltroCategoria.appendChild(tituloCategoria);
+    
+    const selectCategoria = document.createElement('select');
+    selectCategoria.id = 'filtroCategoria';
+    selectCategoria.classList.add('form-select');
+    
+    const opcionesCategoria = ['todos', 'Maquillaje', 'Cuidado facial y corporal'];
+    opcionesCategoria.forEach(opcion => {
+        const option = document.createElement('option');
+        option.value = opcion;
+        option.textContent = opcion.charAt(0).toUpperCase() + opcion.slice(1);
+        selectCategoria.appendChild(option);
+    });
+    divFiltroCategoria.appendChild(selectCategoria);
+    
+    //div filtro marca
+    const divFiltroMarca = document.createElement('div');
+    divFiltroMarca.classList.add('divFiltroMarca');
+    
+    const tituloMarca = document.createElement('p');
+    tituloMarca.classList.add('titulofiltro');
+    tituloMarca.textContent = 'Marcas';
+    divFiltroMarca.appendChild(tituloMarca);
+    
+    const divFiltroMarcaCheckboxes = document.createElement('div');
+    divFiltroMarcaCheckboxes.id = 'filtroMarca';
+    divFiltroMarcaCheckboxes.classList.add('form-check', 'd-flex', 'flex-column');
+    
+    const marcas = ['Maybelline', 'Mac', 'CeraVe', 'Dove', 'Revlon'];
+    marcas.forEach(marca => {
+        const label = document.createElement('label');
+        label.classList.add('form-check-label');
+        
+        const input = document.createElement('input');
+        input.classList.add('form-check-input');
+        input.type = 'checkbox';
+        input.value = marca;
+        
+        label.appendChild(input);
+        label.appendChild(document.createTextNode(' ' + marca));
+        
+        divFiltroMarcaCheckboxes.appendChild(label);
+    });
+    divFiltroMarca.appendChild(divFiltroMarcaCheckboxes);
+    
+    const seccionFiltro = document.querySelector('.seccionfiltro');
+    seccionFiltro.appendChild(divFiltroCategoria);
+    seccionFiltro.appendChild(divFiltroMarca);
+}
+crearFiltros();
+
+//funcion para filtrar los productos
+function filtrarProductos() {
     const filtroCategoria = document.getElementById('filtroCategoria').value;
-    
-    productos.forEach((producto) => {
-        if (filtroCategoria === 'todos' || producto.categoria === filtroCategoria) {
-            crearCatalogo(producto, seccionCatalogo);
+    const checkboxesMarcas = document.querySelectorAll('#filtroMarca input[type="checkbox"]');
+    const marcasSeleccionadas = [];
+
+    checkboxesMarcas.forEach((checkbox) => {
+        if (checkbox.checked) {
+            marcasSeleccionadas.push(checkbox.value);
         }
     });
+
+    let seccionCatalogo = document.getElementById('idCatalogo');
+    seccionCatalogo.innerHTML = '';
+
+    let hayCoincidencias = false;
+
+    productos.forEach((producto) => {
+        const cumpleFiltroCategoria = filtroCategoria === 'todos' || producto.categoria === filtroCategoria;
+        const cumpleFiltroMarca = marcasSeleccionadas.includes(producto.marca) || marcasSeleccionadas.length === 0;
+
+        if (cumpleFiltroCategoria && cumpleFiltroMarca) {
+            crearCatalogo(producto, seccionCatalogo);
+            hayCoincidencias = true;
+        }
+    });
+
+    if (!hayCoincidencias) {
+        const mensajeNoCoincidencias = document.createElement('div');
+        mensajeNoCoincidencias.textContent = 'No hay productos que coincidan con los filtros seleccionados.';
+        mensajeNoCoincidencias.classList.add('mensajeNoCoincidencias');
+        seccionCatalogo.appendChild(mensajeNoCoincidencias);
+    }
 }
 const selectFiltroCategoria = document.getElementById('filtroCategoria');
-selectFiltroCategoria.addEventListener('change', filtrarPorCategoria);
-
-
-//funcion para filtrar los productos por marca
-function filtrarPorMarca() {
-    let seccionCatalogo = document.getElementById('idCatalogo');
-    seccionCatalogo.innerHTML = '';
-    
-    const checkboxes = document.querySelectorAll('#filtroMarca input[type="checkbox"]');
-    const marcasSeleccionadas = Array.from(checkboxes)
-        .filter(checkbox => checkbox.checked)
-        .map(checkbox => checkbox.value);
-    
-    productos.forEach((producto) => {
-        if (marcasSeleccionadas.includes(producto.marca) || marcasSeleccionadas.length === 0) {
-            crearCatalogo(producto, seccionCatalogo);
-        }
-    });
-}
-
+selectFiltroCategoria.addEventListener('change', filtrarProductos);
 const selectFiltroMarca = document.getElementById('filtroMarca');
-selectFiltroMarca.addEventListener('change', filtrarPorMarca);
+selectFiltroMarca.addEventListener('change', filtrarProductos);
 
 //funcion para agregar productos al carrito
 function agregarCarrito(eleccion) {
@@ -307,7 +364,7 @@ function restarProducto(eleccion) {
         mostrarCarrito();
     }
 }
-    
+
 //funcion para calcular el total del carrito
 function calcularTotalCarrito() {
         return carrito.reduce((total, producto) => total + (producto.precio * producto.cantidad), 0);
@@ -387,7 +444,7 @@ function realizarCompra() {
         });
     }
 }
-    
+
 // inicialización
 function inicializar() {
     mostrarCatalogo();
